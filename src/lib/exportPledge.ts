@@ -12,7 +12,7 @@ export async function createPledgeBlob({ commitment, name }: PledgeArtwork) {
   const context = canvas.getContext("2d"); if (!context) throw new Error("Canvas is unavailable in this browser.");
   context.fillStyle = "#C7FF61"; context.fillRect(0, 0, canvas.width, canvas.height);
   context.fillStyle = "#101014"; context.fillRect(42, 42, 996, 1266);
-  context.fillStyle = "#C7FF61"; context.font = "700 34px 'Space Grotesk', sans-serif"; context.fillText("UNLABEL® / MY PLEDGE", 92, 125);
+  context.fillStyle = "#C7FF61"; context.font = "700 34px 'Space Grotesk', sans-serif"; context.fillText("UNLABEL / MY PLEDGE", 92, 125);
   context.fillStyle = "#F0EFE9"; context.font = "500 116px 'Space Grotesk', sans-serif"; context.fillText("I CHOOSE TO", 92, 325);
   context.font = "600 104px 'Space Grotesk', sans-serif"; const lines = drawWrappedText(context, commitment, 92, 455, 890, 108);
   const dividerY = Math.max(970, 455 + lines * 108 + 80); context.fillStyle = "#8150D8"; context.fillRect(92, dividerY, 896, 8);

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { InformationPage, ReviewMark } from "@/components/pages/InformationPage";
+import { InformationPage } from "@/components/pages/InformationPage";
 export const metadata: Metadata = { title: "About UNLABEL", description: "The purpose, approach, and editorial commitments behind UNLABEL." };
-export default function Page(){return <InformationPage eyebrow="About / 01" title="Why UNLABEL exists." intro="UNLABEL is an interactive educational project about recognizing and questioning gender stereotypes before they narrow a person’s choices." review sections={[
+export default function Page(){return <InformationPage eyebrow="About / 01" title="Why UNLABEL exists." intro="UNLABEL is an interactive educational project about recognizing and questioning gender stereotypes before they narrow a person’s choices." sections={[
   {title:"Our purpose",body:<><p>Gender stereotypes can shape how interests, emotions, work, care, and leadership are interpreted. UNLABEL creates space to notice those shortcuts, consider their effects, and practice more open responses.</p><p>The experience is educational. It does not attempt to define any person’s identity or suggest that everyone experiences gender in the same way.</p></>},
   {title:"How the experience works",body:<p>Explore introduces common patterns. Challenge turns reflection into choices. Impact adds verified context. Rights links to Philippine legal sources. Take Action offers private, browser-based tools for personal commitments.</p>},
   {title:"Editorial principles",body:<ul><li>Keep people’s agency at the center.</li><li>Distinguish illustration, evidence, and law.</li><li>Link factual claims to identifiable sources.</li><li>Avoid presenting a single experience as universal.</li><li>Correct material errors transparently.</li></ul>},
-  {title:"Project ownership",body:<p><ReviewMark>add the legal name of the owner or organization, responsible editor, Philippine business or organization details if applicable, and the official publication date.</ReviewMark></p>},
+  {title:"Project ownership",body:<><p>UNLABEL is owned and maintained by Luigi Carl. Luigi Carl is responsible for the project’s editorial direction, website content, and technical publication.</p><p><strong>Publication contact:</strong> <a className="text-link" href="/contact/email">luigicarlbrezuela07@gmail.com</a></p><p><strong>Documentation effective date:</strong> October 14, 2026.</p></>},
 ]}/>}
