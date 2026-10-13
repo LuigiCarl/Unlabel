@@ -20,19 +20,17 @@ function CameraRig({ complete }: { complete: boolean }) {
 }
 
 const fieldSlots: Array<[number, number, number]> = [
-  [-2.25, 1.35, .1], [0, 2.15, -.65], [2.2, 1.35, -.15],
-  [-2.25, -.95, -.35], [-.75, -.25, -.7], [1.05, -.2, -.5],
-  [2.2, -.95, .05], [-1.25, -1.95, -.4], [1.25, -1.95, -.15], [0, .65, -.8],
+  [-2.25, 1.25, .1], [2.15, 1.1, -.15], [-2.3, -1.15, -.35],
+  [2.15, -1.2, .05], [0, 2.15, -.65],
 ];
 
 export type LabelSceneProps = { labels: StereotypeLabel[]; brokenIds: string[]; onBreak: (id: string) => void; reducedMotion?: boolean };
 export default function LabelScene({ labels, brokenIds, onBreak, reducedMotion = false }: LabelSceneProps) {
   const complete = brokenIds.length === labels.length;
   const randomizedLabels = useMemo(() => {
-    const availableSlots = [...fieldSlots];
-    return labels.map((label, index) => {
-      const slotIndex = Math.floor(Math.random() * availableSlots.length);
-      const position = availableSlots.splice(slotIndex, 1)[0];
+    const shuffledLabels = [...labels].sort(() => Math.random() - .5);
+    return shuffledLabels.map((label, index) => {
+      const position = fieldSlots[index];
       const rotation: [number, number, number] = [0, (Math.random() - .5) * .55, (Math.random() - .5) * .28];
       return { ...label, position, rotation };
     });
