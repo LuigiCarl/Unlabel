@@ -4,6 +4,10 @@
 
 UNLABEL is a Next.js website that combines editorial content, reflective prompts, interactive stories, source-backed context, and browser-only personal tools. Its goal is not to define anyone's identity or prescribe a single experience. It creates space to examine inherited assumptions and make room for wider possibilities.
 
+[![Visit the live UNLABEL website](https://unlabel-dusky.vercel.app/opengraph-image)](https://unlabel-dusky.vercel.app/)
+
+**Live website:** [unlabel-dusky.vercel.app](https://unlabel-dusky.vercel.app/)
+
 **Project owner:** Luigi Carl  
 **Contact route:** `/contact` ([implementation](./src/app/contact/page.tsx))  
 **Current documentation effective date:** October 14, 2026
