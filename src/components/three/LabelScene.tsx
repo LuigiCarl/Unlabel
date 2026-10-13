@@ -1,10 +1,10 @@
 "use client";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Float } from "@react-three/drei";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import type { Group } from "three";
 import { Vector3 } from "three";
-import { stereotypeLabels } from "@/data/stereotypes";
+import type { StereotypeLabel } from "@/data/stereotypes";
 import { LabelObject } from "./LabelObject";
 
 function Core({ complete }: { complete: boolean }) {
@@ -14,13 +14,28 @@ function Core({ complete }: { complete: boolean }) {
 }
 
 function CameraRig({ complete }: { complete: boolean }) {
-  const { camera, pointer } = useThree();
-  useFrame((_, delta) => { const target = new Vector3(complete ? 0 : pointer.x * .14, complete ? .05 : pointer.y * .1, complete ? 6.4 : 5.35); camera.position.lerp(target, Math.min(1, delta * 1.8)); camera.lookAt(0, 0, 0); });
+  const { camera, pointer, size } = useThree();
+  useFrame((_, delta) => { const mobile = size.width < 600; const target = new Vector3(complete ? 0 : pointer.x * (mobile ? .08 : .14), complete ? .05 : pointer.y * (mobile ? .06 : .1), complete ? (mobile ? 8.2 : 6.4) : (mobile ? 8 : 5.35)); camera.position.lerp(target, Math.min(1, delta * 1.8)); camera.lookAt(0, 0, 0); });
   return null;
 }
 
-export type LabelSceneProps = { brokenIds: string[]; onBreak: (id: string) => void; reducedMotion?: boolean };
-export default function LabelScene({ brokenIds, onBreak, reducedMotion = false }: LabelSceneProps) {
-  const complete = brokenIds.length === stereotypeLabels.length;
-  return <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 5.35], fov: 48 }} gl={{ antialias: true, alpha: true }} frameloop={reducedMotion ? "demand" : "always"}><ambientLight intensity={1.8} /><directionalLight position={[3, 4, 5]} color="#c7ff61" intensity={4.5} /><directionalLight position={[-4, -2, 3]} color="#8150d8" intensity={3.8} /><Core complete={complete} />{stereotypeLabels.map((label, index) => <LabelObject key={label.id} index={index} label={label} broken={brokenIds.includes(label.id)} onBreak={() => onBreak(label.id)} />)}{!reducedMotion && <CameraRig complete={complete} />}</Canvas>;
+const fieldSlots: Array<[number, number, number]> = [
+  [-2.25, 1.35, .1], [0, 2.15, -.65], [2.2, 1.35, -.15],
+  [-2.25, -.95, -.35], [-.75, -.25, -.7], [1.05, -.2, -.5],
+  [2.2, -.95, .05], [-1.25, -1.95, -.4], [1.25, -1.95, -.15], [0, .65, -.8],
+];
+
+export type LabelSceneProps = { labels: StereotypeLabel[]; brokenIds: string[]; onBreak: (id: string) => void; reducedMotion?: boolean };
+export default function LabelScene({ labels, brokenIds, onBreak, reducedMotion = false }: LabelSceneProps) {
+  const complete = brokenIds.length === labels.length;
+  const randomizedLabels = useMemo(() => {
+    const availableSlots = [...fieldSlots];
+    return labels.map((label, index) => {
+      const slotIndex = Math.floor(Math.random() * availableSlots.length);
+      const position = availableSlots.splice(slotIndex, 1)[0];
+      const rotation: [number, number, number] = [0, (Math.random() - .5) * .55, (Math.random() - .5) * .28];
+      return { ...label, position, rotation };
+    });
+  }, [labels]);
+  return <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 5.35], fov: 48 }} gl={{ antialias: true, alpha: true }} frameloop={reducedMotion ? "demand" : "always"}><ambientLight intensity={1.8} /><directionalLight position={[3, 4, 5]} color="#c7ff61" intensity={4.5} /><directionalLight position={[-4, -2, 3]} color="#8150d8" intensity={3.8} /><Core complete={complete} />{randomizedLabels.map((label, index) => <LabelObject key={label.id} index={index} label={label} broken={brokenIds.includes(label.id)} onBreak={() => onBreak(label.id)} />)}{!reducedMotion && <CameraRig complete={complete} />}</Canvas>;
 }
