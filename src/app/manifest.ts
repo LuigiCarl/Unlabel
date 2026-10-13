@@ -1,0 +1,2 @@
+import type { MetadataRoute } from "next";
+export default function manifest(): MetadataRoute.Manifest { return { name: "UNLABEL® — Break the Labels", short_name: "UNLABEL®", description: "An interactive educational experience challenging gender stereotypes.", start_url: "/", display: "standalone", background_color: "#101014", theme_color: "#101014", icons: [{ src: "/icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" }] }; }

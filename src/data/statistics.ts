@@ -1,0 +1,5 @@
+export type StatisticSet = { id: string; title: string; period: string; geography: string; definition: string; interpretation: string; sourceId: string; values: Array<{ label: string; value: number }> };
+export const statistics: StatisticSet[] = [
+  { id: "lfpr-sex", title: "Labor force participation by sex", period: "January 2024", geography: "Philippines", definition: "Share of the population aged 15 and older who were in the labor force.", interpretation: "The difference describes participation in this period. It does not measure ability or establish a single cause.", sourceId: "psa-lfs", values: [{ label: "Male", value: 72.825 }, { label: "Female", value: 49.348 }] },
+  { id: "lfpr-total", title: "Annual labor force participation", period: "2024 preliminary annual estimate", geography: "Philippines", definition: "Share of Filipinos aged 15 and older who were employed or unemployed and looking for work.", interpretation: "PSA estimated 50.79 million people in the labor force out of 78.83 million people aged 15 and older.", sourceId: "psa-annual", values: [{ label: "Both sexes", value: 64.4 }] },
+];
