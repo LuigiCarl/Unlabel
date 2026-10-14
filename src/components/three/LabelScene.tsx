@@ -1,10 +1,11 @@
 "use client";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Float } from "@react-three/drei";
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState } from "react";
 import type { Group } from "three";
 import { Vector3 } from "three";
 import type { StereotypeLabel } from "@/data/stereotypes";
+import { createSeededRandom, randomSeed, shuffle } from "@/lib/random";
 import { LabelObject } from "./LabelObject";
 
 function Core({ complete }: { complete: boolean }) {
@@ -27,13 +28,15 @@ const fieldSlots: Array<[number, number, number]> = [
 export type LabelSceneProps = { labels: StereotypeLabel[]; brokenIds: string[]; onBreak: (id: string) => void; reducedMotion?: boolean };
 export default function LabelScene({ labels, brokenIds, onBreak, reducedMotion = false }: LabelSceneProps) {
   const complete = brokenIds.length === labels.length;
+  const [seed] = useState(randomSeed);
   const randomizedLabels = useMemo(() => {
-    const shuffledLabels = [...labels].sort(() => Math.random() - .5);
+    const random = createSeededRandom(seed);
+    const shuffledLabels = shuffle(labels, random);
     return shuffledLabels.map((label, index) => {
       const position = fieldSlots[index];
-      const rotation: [number, number, number] = [0, (Math.random() - .5) * .55, (Math.random() - .5) * .28];
+      const rotation: [number, number, number] = [0, (random() - .5) * .55, (random() - .5) * .28];
       return { ...label, position, rotation };
     });
-  }, [labels]);
+  }, [labels, seed]);
   return <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 5.35], fov: 48 }} gl={{ antialias: true, alpha: true }} frameloop={reducedMotion ? "demand" : "always"}><ambientLight intensity={1.8} /><directionalLight position={[3, 4, 5]} color="#c7ff61" intensity={4.5} /><directionalLight position={[-4, -2, 3]} color="#8150d8" intensity={3.8} /><Core complete={complete} />{randomizedLabels.map((label, index) => <LabelObject key={label.id} index={index} label={label} broken={brokenIds.includes(label.id)} onBreak={() => onBreak(label.id)} />)}{!reducedMotion && <CameraRig complete={complete} />}</Canvas>;
 }

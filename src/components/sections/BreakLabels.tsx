@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Check, RotateCcw, Sparkles } from "lucide-react";
 import { stereotypeLabels } from "@/data/stereotypes";
+import { createSeededRandom, randomSeed, shuffle } from "@/lib/random";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 const LabelScene = dynamic(() => import("@/components/three/LabelScene"), { ssr: false, loading: () => <div className="scene-fallback">Building the label field…</div> });
@@ -16,7 +17,10 @@ export function BreakLabels() {
   const complete = brokenIds.length === visibleLabels.length;
   const active = visibleLabels.find((label) => label.id === activeId);
   useEffect(() => {
-    setVisibleLabels([...stereotypeLabels].sort(() => Math.random() - .5).slice(0, 5));
+    const timer = window.setTimeout(() => {
+      setVisibleLabels(shuffle(stereotypeLabels, createSeededRandom(randomSeed())).slice(0, 5));
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, []);
   const breakLabel = useCallback((id: string) => { setBrokenIds((current) => current.includes(id) ? current : [...current, id]); setActiveId(id); }, []);
   const reset = () => { setBrokenIds([]); setActiveId(null); };
