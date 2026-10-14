@@ -137,8 +137,8 @@ Do not commit `.env.local` or any file containing credentials or private deploym
 | Variable | Required | Purpose |
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Recommended | Canonical origin used by metadata, sitemap, and robots output |
-| `UPSTASH_REDIS_REST_URL` | Required for visitor counter | Upstash Redis REST endpoint |
-| `UPSTASH_REDIS_REST_TOKEN` | Required for visitor counter | Upstash Redis REST token |
+| `UPSTASH_REDIS_REST_URL` | Required for visits counter | Upstash Redis REST endpoint |
+| `UPSTASH_REDIS_REST_TOKEN` | Required for visits counter | Upstash Redis REST token |
 
 The template is in [`.env.example`](./.env.example). The value must include the protocol, for example `https://example.com`.
 
