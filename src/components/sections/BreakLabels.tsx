@@ -17,10 +17,10 @@ export function BreakLabels() {
   const complete = brokenIds.length === visibleLabels.length;
   const active = visibleLabels.find((label) => label.id === activeId);
   useEffect(() => {
-    const timer = window.setTimeout(() => {
+    const frame = window.requestAnimationFrame(() => {
       setVisibleLabels(shuffle(stereotypeLabels, createSeededRandom(randomSeed())).slice(0, 5));
-    }, 0);
-    return () => window.clearTimeout(timer);
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, []);
   const breakLabel = useCallback((id: string) => { setBrokenIds((current) => current.includes(id) ? current : [...current, id]); setActiveId(id); }, []);
   const reset = () => { setBrokenIds([]); setActiveId(null); };
